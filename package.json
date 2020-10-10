@@ -1,0 +1,27 @@
+{
+	"name": "schoolspace-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node app",
+		"dev": "nodemon app"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/duttasamd/schoolspace-api.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/duttasamd/schoolspace-api/issues"
+	},
+	"homepage": "https://github.com/duttasamd/schoolspace-api#readme",
+	"dependencies": {
+		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.4"
+	}
+}
