@@ -7,6 +7,7 @@ exports.up = async function(knex) {
      table.string('email');
      table.string('username').unique().notNull();
      table.string('password').notNull();
+     table.date('dateOfBirth').notNull();
      table.bigint('roleID').unsigned().notNull().references('id').inTable('roles')
   });
 };

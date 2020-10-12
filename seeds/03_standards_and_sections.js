@@ -9,7 +9,7 @@ exports.seed = async function(knex) {
 
   const secs = ["A", "B", "C", "D", "E", "F", "G"];
 
-  console.time("Seed standards and sections : ")
+  console.time("Seed standards and sections")
 
   let promises = [];
   for(let i=1; i<=12; i++) {
@@ -47,5 +47,5 @@ exports.seed = async function(knex) {
 
   await Promise.all(promises);
 
-  console.timeEnd("Seed standards and sections : ")
+  console.timeEnd("Seed standards and sections")
 };

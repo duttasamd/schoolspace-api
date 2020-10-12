@@ -4,7 +4,7 @@ exports.seed = async function(knex) {
   // Deletes ALL existing entries
   await knex('users').del()
 
-  console.time("Seed super admins : ")
+  console.time("Seed super admins")
     
   const superadmin = await knex('roles').where({ name : "Super Admin"}).select('id').first();
 
@@ -14,6 +14,7 @@ exports.seed = async function(knex) {
       lastName : 'Dutta',
       email : 'dutta.sam.d@gmail.com',
       username : 'samrat',
+      dateOfBirth : new Date('1994', '03', '09'),
       roleID : superadmin.id
     },
     {
@@ -21,6 +22,7 @@ exports.seed = async function(knex) {
       lastName : 'Das',
       email : 'suman@mail.com',
       username : 'suman',
+      dateOfBirth : new Date('1990', '01', '01'),
       roleID : superadmin.id
     },
     {
@@ -28,6 +30,7 @@ exports.seed = async function(knex) {
       lastName : 'Paul',
       email : 'priyanka@mail.com',
       username : 'priyanka',
+      dateOfBirth : new Date('1992', '11', '18'),
       roleID : superadmin.id
     },
   ]
@@ -52,5 +55,5 @@ exports.seed = async function(knex) {
   
   await knex('users').insert(users);
 
-  console.timeEnd("Seed super admins : ")
+  console.timeEnd("Seed super admins")
 };

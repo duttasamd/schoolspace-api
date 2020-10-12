@@ -28,6 +28,7 @@
 		"objection-password": "^3.0.0"
 	},
 	"devDependencies": {
+		"faker": "^5.1.0",
 		"nodemon": "^2.0.4"
 	}
 }
