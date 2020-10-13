@@ -1,4 +1,3 @@
-const { fake } = require('faker');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 
@@ -15,19 +14,17 @@ exports.seed = async function(knex) {
       = await knex('roles').where({ name : "Student"})
       .select('id').first();
 
-  console.time("Hash 200 Passwords");
   let bcryptPromises = [];
   let bcryptPasswords = [];
   
   for(let i=0; i<100; i++) {
     bcryptPromises.push(
-      bcrypt.hash('pass', 10).then(
+      bcrypt.hash('student123', 10).then(
         (hash) => { bcryptPasswords.push(hash) }
       )
     )
   }
   await Promise.all(bcryptPromises);
-  console.timeEnd("Hash 200 Passwords");
 
   let promises = [];
 
