@@ -13,6 +13,7 @@ exports.seed = async function(knex) {
       firstName : 'Samrat',
       lastName : 'Dutta',
       email : 'dutta.sam.d@gmail.com',
+      phone : "+491603508895",
       username : 'samrat',
       dateOfBirth : new Date('1994', '03', '09'),
       roleID : superadmin.id
@@ -21,6 +22,7 @@ exports.seed = async function(knex) {
       firstName : 'Suman',
       lastName : 'Das',
       email : 'suman@mail.com',
+      phone : "+91000100010",
       username : 'suman',
       dateOfBirth : new Date('1990', '01', '01'),
       roleID : superadmin.id
@@ -29,6 +31,7 @@ exports.seed = async function(knex) {
       firstName : 'Priyanka',
       lastName : 'Paul',
       email : 'priyanka@mail.com',
+      phone : "+498238192012",
       username : 'priyanka',
       dateOfBirth : new Date('1992', '11', '18'),
       roleID : superadmin.id

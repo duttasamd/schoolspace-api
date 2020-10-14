@@ -39,6 +39,7 @@ exports.seed = async function(knex) {
         firstName : faker.name.firstName(),
         lastName : faker.name.lastName(),
         email : faker.internet.email(),
+        phone : faker.phone.phoneNumber(),
         username : faker.internet.userName(),
         dateOfBirth : faker.date.past(1,year),
         roleID : studentRole.id,

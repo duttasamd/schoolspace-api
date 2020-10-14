@@ -1,4 +1,3 @@
-const HttpStatus = require('http-status-codes');
 const AuthenticationService = require('../services/AuthenticationService')
 
 class AuthenticationController {
@@ -6,14 +5,14 @@ class AuthenticationController {
         const username = req.body.username;
         const password = req.body.password;
         try {
-            let authorized = await auth.authenticate(username, password);
+            let authorized = await AuthenticationService.authenticate(username, password);
             if(authorized) {
-                res.sendStatus(HttpStatus.StatusCodes.OK);
+                res.sendStatus(200);
             } else {
-                res.sendStatus(HttpStatus.StatusCodes.UNAUTHORIZED)
+                res.sendStatus(403)
             }
         } catch(err) {
-            res.sendStatus(HttpStatus.StatusCodes.UNAUTHORIZED)
+            res.sendStatus(403)
         }
     }
 
@@ -24,12 +23,12 @@ class AuthenticationController {
             let tokens = await AuthenticationService.login(username, password);
             
             if(tokens == null) {
-                res.sendStatus(HttpStatus.StatusCodes.UNAUTHORIZED)
+                res.sendStatus(403)
             }
             
             res.json(tokens);
         } catch(err) {
-            res.sendStatus(HttpStatus.StatusCodes.UNAUTHORIZED)
+            res.sendStatus(403)
         }
     }
 

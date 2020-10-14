@@ -5,6 +5,7 @@ exports.up = async function(knex) {
      table.string('firstName').notNull();
      table.string('lastName').notNull();
      table.string('email');
+     table.string('phone');
      table.string('username').unique().notNull();
      table.string('password').notNull();
      table.string('refresh_token').nullable();
