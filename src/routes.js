@@ -4,6 +4,8 @@ const router = express.Router()
 const auth = require('./middlewares/auth')
 
 const AuthenticationController = require('./controllers/AuthenticationController.js');
+const SectionController = require('./controllers/SectionController');
+const StandardController = require('./controllers/StandardController');
 const UserController = new require('./controllers/UserController.js');
 const StudentController = new require('./controllers/StudentController.js');
 const TeacherController = new require('./controllers/TeacherController.js');
@@ -28,11 +30,30 @@ router.delete('/logout', auth, function (req, res, next) {
 router.get("/user", auth, (req, res, next) => UserController.get(req, res));
 router.get("/users", auth, (req, res, next) => UserController.list(req, res));
 router.get("/users/count", auth, (req, res, next) => UserController.count(req, res));
+router.get("/users/staffcount", auth, (req, res, next) => UserController.staffCount(req, res));
 
 
+
+//STUDENT 
+
+router.get("/students", auth, (req, res, next) => StudentController.list(req, res));
 router.get("/students/count", auth, (req, res, next) => StudentController.count(req, res));
 
 
+//TEACHER
+
+router.get("/teachers", auth, (req, res, next) => TeacherController.list(req, res));
 router.get("/teachers/count", auth, (req, res, next) => TeacherController.count(req, res));
+
+
+//STANDARD
+
+router.get("/standards/count", auth, (req, res, next) => StandardController.count(req, res));
+
+
+//SECTION
+
+router.get("/sections/count", auth, (req, res, next) => SectionController.count(req, res));
+
 
 module.exports = router

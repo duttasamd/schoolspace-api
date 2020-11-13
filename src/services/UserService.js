@@ -37,6 +37,10 @@ class UserService {
     async count() {
         return await db('users').count('id as count').then((res) => {return res[0].count });
     }
+
+    async staffCount() {
+        return await db('users').where('role_id', 3).count('id as count').then((res) => {return res[0].count });
+    }
 }
 
 module.exports = new UserService()

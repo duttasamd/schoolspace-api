@@ -3,7 +3,6 @@ const UserService = require('../services/UserService');
 class UserController {
     async get (req, res) {
         const user = await UserService.get(req.user.username);
-
         res.json(user);
     }
 
@@ -16,9 +15,14 @@ class UserController {
 
         res.json(result);
     }
-
+    
     async count (req, res) {
         const count = await UserService.count();
+        res.json(count);
+    }
+
+    async staffCount (req, res) {
+        const count = await UserService.staffCount();
         res.json(count);
     }
 }
