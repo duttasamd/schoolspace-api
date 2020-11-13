@@ -1,10 +1,8 @@
-const environment = process.env.NODE_ENV || 'development';
-const configuration = require('../../knexfile')[environment];
-const knex = require('knex')(configuration);
+const db = require('../knexService');
 
 class StudentService {
     async count () {
-        return await knex('students').count('id as count').then((res) => {return res[0].count });
+        return await db('students').count('id as count').then((res) => {return res[0].count });
     }
 }
 

@@ -1,10 +1,8 @@
-const environment = process.env.NODE_ENV || 'development';
-const configuration = require('../../knexfile')[environment];
-const knex = require('knex')(configuration);
+const db = require('../knexService');
 
 class UserService {
     async list (pageIndex, pageSize, search) {
-        let query = knex('users')
+        let query = db('users')
                     .join('roles', 'users.roleId', 'roles.id');
 
         if(search && search != "") {
@@ -14,7 +12,6 @@ class UserService {
                         .orWhere('email', 'like', searchParam)
                         .orWhere('phone', 'like', searchParam)
                         .orWhere('roles.name', 'like', searchParam)
-
         }
 
         let recordsTotal = await query.clone().count('users.id as count');
@@ -30,7 +27,7 @@ class UserService {
     }
 
     async get (username) {
-        return await knex('users')
+        return await db('users')
                     .where('username', '=', username)
                     .select('firstname', 'lastname', 'roleId', 'email', 'username')
                     .first();
@@ -38,7 +35,7 @@ class UserService {
     }
 
     async count() {
-        return await knex('users').count('id as count').then((res) => {return res[0].count });
+        return await db('users').count('id as count').then((res) => {return res[0].count });
     }
 }
 

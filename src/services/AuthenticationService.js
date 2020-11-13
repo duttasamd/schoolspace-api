@@ -1,13 +1,11 @@
-const environment = process.env.NODE_ENV || 'development';
-const configuration = require('../../knexfile')[environment];
-const knex = require('knex')(configuration);
+const db = require('../knexService');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 class AuthenticationService {
     async authenticate (username, password) {
-        let user = await knex('users').where('username', username)
+        let user = await db('users').where('username', username)
         .orWhere('email', username)
         .select('password').first();
 
@@ -19,7 +17,7 @@ class AuthenticationService {
     }
 
     async login (username, password) {
-        let user = await knex('users').where('username', username)
+        let user = await db('users').where('username', username)
         .orWhere('email', username)
         .select('password', 'username').first();
 
@@ -33,7 +31,7 @@ class AuthenticationService {
             name : user.username
         }, process.env.REFRESH_TOKEN_SECRET)
 
-        await knex('users')
+        await db('users')
         .update('refresh_token', refresh_token)
         .where('username', user.username)
 
@@ -48,7 +46,7 @@ class AuthenticationService {
                 refresh_token : refresh_token,
             };
 
-            await knex('users')
+            await db('users')
             
         } else {
             throw new Error("UNAUTHORIZED");
@@ -58,7 +56,7 @@ class AuthenticationService {
     }
 
     async logout(username) {
-        await knex('users')
+        await db('users')
         .update('refresh_token', null)
         .where('username', username);
     }
