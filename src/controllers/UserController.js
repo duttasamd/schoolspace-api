@@ -3,6 +3,7 @@ const UserService = require('../services/UserService');
 class UserController {
     async get (req, res) {
         const user = await UserService.get(req.user.username);
+
         res.json(user);
     }
 

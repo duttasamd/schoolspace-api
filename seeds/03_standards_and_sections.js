@@ -12,13 +12,14 @@ exports.seed = async function(knex) {
   console.time("Seed standards and sections")
 
   let promises = [];
+  
   for(let i=1; i<=12; i++) {
     const standard = {
       name : stds[i-1],
       sequence : i,
     }
 
-    let standardId = knex('standards')
+    let standard_id = knex('standards')
       .insert(standard)
       .then((res) => 
         {return res[0];});
@@ -31,13 +32,13 @@ exports.seed = async function(knex) {
       num_sections = 2;
     }
 
-    standardId = await Promise.resolve(standardId);
+    standard_id = await Promise.resolve(standard_id);
 
     let sections = [];
     for(let j=0; j<num_sections; j++) {
       const section = {
         name : secs[j],
-        standardId : standardId
+        standard_id : standard_id
       }
       sections.push(section);
     }

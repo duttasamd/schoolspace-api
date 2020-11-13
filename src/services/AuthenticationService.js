@@ -1,4 +1,4 @@
-const db = require('../knexService');
+const db = require('../utils/knexutil');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');

@@ -10,10 +10,13 @@ exports.up = async function(knex) {
      table.string('password').notNull();
      table.string('refresh_token').nullable();
      table.date('dateOfBirth').notNull();
-     table.bigint('roleID').unsigned().notNull().references('id').inTable('roles')
+     table.bigint('role_id').unsigned().notNull().references('id').inTable('roles')
   });
 };
 
 exports.down = function(knex) {
+    knex.schema.table('users', function (table) {
+      table.dropForeign('role_id')
+    });
     return knex.schema.dropTableIfExists('users');
 };

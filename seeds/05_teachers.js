@@ -20,7 +20,7 @@ exports.seed = async function(knex) {
       username : faker.internet.userName(),
       phone : faker.phone.phoneNumber(),
       dateOfBirth : faker.date.past(30,'1994-01-01'),
-      roleID : teacherRole.id,
+      role_id : teacherRole.id,
     }
     teachers.push(user);
   }
@@ -40,7 +40,7 @@ exports.seed = async function(knex) {
       promises.push(knex('users').insert(teacher)
         .then(async ids => {
           await knex('teachers').insert({
-            'userId' : ids[0]
+            'user_id' : ids[0]
           })
         }))
     }

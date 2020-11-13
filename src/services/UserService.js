@@ -1,9 +1,9 @@
-const db = require('../knexService');
+const db = require('../utils/knexutil');
 
 class UserService {
     async list (pageIndex, pageSize, search) {
         let query = db('users')
-                    .join('roles', 'users.roleId', 'roles.id');
+                    .join('roles', 'users.role_id', 'roles.id');
 
         if(search && search != "") {
             const searchParam = '%' + search + '%';
@@ -29,7 +29,7 @@ class UserService {
     async get (username) {
         return await db('users')
                     .where('username', '=', username)
-                    .select('firstname', 'lastname', 'roleId', 'email', 'username')
+                    .select('firstname', 'lastname', 'role_id', 'email', 'username')
                     .first();
 
     }

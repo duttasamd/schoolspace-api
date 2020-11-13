@@ -7,7 +7,7 @@ exports.seed = async function(knex) {
 
   console.time("Seed students");
   const sections = await knex('sections')
-                  .join('standards', 'standards.id', 'sections.standardId')
+                  .join('standards', 'standards.id', 'sections.standard_id')
                   .select('sections.id as id', 'standards.sequence as seq');
 
   const studentRole 
@@ -42,7 +42,7 @@ exports.seed = async function(knex) {
         phone : faker.phone.phoneNumber(),
         username : faker.internet.userName(),
         dateOfBirth : faker.date.past(1,year),
-        roleID : studentRole.id,
+        role_id : studentRole.id,
         password : bcryptPasswords[count]
       }
       
@@ -50,8 +50,8 @@ exports.seed = async function(knex) {
       .then(async ids => {
         promises.push(knex('students').insert(
           {
-            sectionId : section.id,
-            userId : ids[0],
+            section_id : section.id,
+            user_id : ids[0],
             roll : roll
           }
         ))

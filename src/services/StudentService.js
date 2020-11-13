@@ -1,4 +1,4 @@
-const db = require('../knexService');
+const db = require('../utils/knexutil');
 
 class StudentService {
     async count () {
