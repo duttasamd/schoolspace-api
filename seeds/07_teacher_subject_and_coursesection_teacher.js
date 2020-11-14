@@ -1,6 +1,6 @@
 exports.seed = async function(knex) {
-	// await knex('coursesection_teacher').del();
-	// await knex('teacher_subject').del();
+	await knex('coursesection_teacher').del();
+	await knex('teacher_subject').del();
 
 
 	// SUBJECTS

@@ -2,6 +2,9 @@ const UserService = require('../services/UserService');
 
 class UserController {
     async get (req, res) {
+        if(req.user === null) {
+            res.sendStatus(403);
+        }
         const user = await UserService.get(req.user.username);
         res.json(user);
     }

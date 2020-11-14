@@ -19,7 +19,7 @@ class AuthenticationService {
     async login (username, password) {
         let user = await db('users').where('username', username)
         .orWhere('email', username)
-        .select('password', 'username').first();
+        .select('password', 'username', 'role_id', 'id').first();
 
         if(user == null) {
             throw new Error("NO_USER");
@@ -40,7 +40,9 @@ class AuthenticationService {
         if(authenticated) {
             tokens = {
                 access_token : jwt.sign({
-                    username : user.username
+                    username : user.username,
+                    user_id : user.id,
+                    role_id :  user.role_id
                 }, process.env.ACCESS_TOKEN_SECRET, {expiresIn : '15m'}),
 
                 refresh_token : refresh_token,
