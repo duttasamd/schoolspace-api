@@ -33,7 +33,7 @@ exports.seed = async function(knex) {
       "Bengali" : allstds,
 	  "Science" : primary,
 	  "Social Science" : [...primary, ...secondary],
-	  "Humanities" : [...secondary, ...highersecondary],
+	  "Humanities" : highersecondary,
       "Painting" : primary,
       "Physical Science" : secondary,
       "Life Science" : secondary,

@@ -12,7 +12,7 @@ exports.seed = async function(knex) {
 
   let teachers = [];
 
-  for(let i=0; i<= 50; i++) {
+  for(let i=0; i<= 100; i++) {
     const user = {
       firstName : faker.name.firstName(),
       lastName : faker.name.lastName(),
