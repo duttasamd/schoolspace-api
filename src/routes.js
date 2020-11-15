@@ -7,6 +7,7 @@ const AuthenticationController = require('./controllers/AuthenticationController
 const SectionController = require('./controllers/SectionController');
 const StandardController = require('./controllers/StandardController');
 const CourseController = require('./controllers/CourseController');
+const GroupController = require('./controllers/GroupController');
 const UserController = new require('./controllers/UserController.js');
 const StudentController = new require('./controllers/StudentController.js');
 const TeacherController = new require('./controllers/TeacherController.js');
@@ -33,7 +34,9 @@ router.get("/users", auth, (req, res, next) => UserController.list(req, res));
 router.get("/users/count", auth, (req, res, next) => UserController.count(req, res));
 router.get("/users/staffcount", auth, (req, res, next) => UserController.staffCount(req, res));
 
-
+// GROUP
+router.get("/groups/count", auth, (req, res, next) => GroupController.count(req, res));
+router.get("/groups", auth, (req, res, next) => GroupController.list(req, res));
 
 // STUDENT 
 

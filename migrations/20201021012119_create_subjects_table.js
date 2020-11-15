@@ -1,7 +1,7 @@
 exports.up = function(knex) {
     return knex.schema.createTable("subjects", table => {
         table.bigincrements();
-        table.string('name');
+        table.string('name').notNull();
     });
 };
 

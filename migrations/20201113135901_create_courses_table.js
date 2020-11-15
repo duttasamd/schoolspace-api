@@ -1,7 +1,7 @@
 exports.up = function(knex) {
     return knex.schema.createTable("courses", table => {
         table.bigincrements();
-        table.string('name');
+        table.string('name').notNull();
         table.bigint('subject_id').unsigned().notNull().references('id').inTable('subjects');
     });
 };
