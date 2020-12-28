@@ -3,7 +3,8 @@ const { ConstraintViolationError } = require("objection");
 exports.seed = async function(knex) {
 	await knex('course_section').del();
 	await knex('courses').del();
-    await knex('subjects').del();
+	await knex('subjects').del();
+	await knex('forums').del();
 	
 	console.time("Seed subjects and courses")
 
