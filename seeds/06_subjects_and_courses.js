@@ -51,6 +51,7 @@ exports.seed = async function(knex) {
 	subjectpromises = [];
 	coursepromises = [];
 	coursesectionpromises = [];
+	forumpromises = [];
 	
 
     for(let key in subjects) {
@@ -76,13 +77,23 @@ exports.seed = async function(knex) {
 							if(std !== "XI" && std !== "XII") {
 								const sections = sectionDict[std];
 								for (const section of sections) {
-									const course_section = {
-										course_id : cres[0],
-										section_id : section
+									const forum = {
+										type : 1,
 									}
+									const forumpromise = knex('forums')
+									.insert(forum)
+									.then((fres) => {
+										const course_section = {
+											course_id : cres[0],
+											section_id : section,
+											forum_id : fres[0]
+										}
+	
+										coursesectionpromises.push(knex('course_section')
+										.insert(course_section));
+									});
 
-									coursesectionpromises.push(knex('course_section')
-									.insert(course_section));
+									forumpromises.push(forumpromise);
 								}
 							}							
 						});
@@ -96,6 +107,7 @@ exports.seed = async function(knex) {
 	
 	await Promise.all(subjectpromises);
 	await Promise.all(coursepromises);
+	await Promise.all(forumpromises);
 	await Promise.all(coursesectionpromises);
 
 	console.timeEnd("Seed subjects and courses")
