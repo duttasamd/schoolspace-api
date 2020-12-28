@@ -8,6 +8,7 @@ const SectionController = require('./controllers/SectionController');
 const StandardController = require('./controllers/StandardController');
 const CourseController = require('./controllers/CourseController');
 const GroupController = require('./controllers/GroupController');
+const ForumController = require('./controllers/ForumController');
 const UserController = new require('./controllers/UserController.js');
 const StudentController = new require('./controllers/StudentController.js');
 const TeacherController = new require('./controllers/TeacherController.js');
@@ -53,16 +54,21 @@ router.get("/teachers/count", auth, (req, res, next) => TeacherController.count(
 // STANDARD
 
 router.get("/standards/count", auth, (req, res, next) => StandardController.count(req, res));
-
-
+router.get("/standards", auth, (req, res, next) => StandardController.list(req, res));
 // SECTION
 
 router.get("/sections/count", auth, (req, res, next) => SectionController.count(req, res));
+router.get("/sections/", auth, (req, res, next) => SectionController.list(req, res));
 
 
 // COURSE
 
 router.get("/coursesection/get/:id", auth, (req, res, next) => CourseController.getCourseSection(req, res));
 router.get("/courses/listforuser", auth, (req, res, next) => CourseController.listForUser(req, res));
+router.get("/courses", auth, (req, res, next) => CourseController.list(req, res));
+
+//FORUM
+router.get("/forums/get/:id", auth, (req, res, next) => ForumController.get(req, res));
+router.get("/forums/:id/threads", auth, (req, res, next) => ForumController.listForumThreads(req, res));
 
 module.exports = router
