@@ -17,11 +17,12 @@ class AuthenticationService {
     }
 
     async login (username, password) {
+        
         let user = await db('users').where('username', username)
         .orWhere('email', username)
         .select('password', 'username', 'role_id', 'id').first();
 
-        if(user == null) {
+        if(user === null) {
             throw new Error("NO_USER");
         }
 

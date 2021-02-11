@@ -36,6 +36,15 @@ exports.seed = async function(knex) {
       dateOfBirth : new Date('1992', '11', '18'),
       role_id : superadmin.id
     },
+    {
+      firstName : 'Sushmitha',
+      lastName : 'Sekar',
+      email : 'sushmithasekar28@gmail.com',
+      phone : "+491230982900",
+      username : 'sush',
+      dateOfBirth : new Date('1995', '11', '21'),
+      role_id : superadmin.id
+    },
   ]
 
 

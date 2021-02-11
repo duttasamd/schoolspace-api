@@ -29,7 +29,7 @@ class UserService {
     async get (username) {
         return await db('users')
                     .where('username', '=', username)
-                    .select('firstname', 'lastname', 'role_id', 'email', 'username')
+                    .select('firstname', 'lastname', 'role_id', 'email', 'username', 'id')
                     .first();
 
     }

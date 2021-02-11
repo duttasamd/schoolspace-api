@@ -31,6 +31,7 @@ router.delete('/logout', auth, function (req, res, next) {
 // USER
 
 router.get("/user", auth, (req, res, next) => UserController.get(req, res));
+router.get("/user/:username", (req, res, next) => UserController.get(req, res));
 router.get("/users", auth, (req, res, next) => UserController.list(req, res));
 router.get("/users/count", auth, (req, res, next) => UserController.count(req, res));
 router.get("/users/staffcount", auth, (req, res, next) => UserController.staffCount(req, res));
