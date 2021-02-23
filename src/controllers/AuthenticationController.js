@@ -4,15 +4,19 @@ class AuthenticationController {
     async authenticate (req, res) {
         const username = req.body.username;
         const password = req.body.password;
-        try {
-            let authorized = await AuthenticationService.authenticate(username, password);
-            if(authorized) {
-                res.sendStatus(200);
-            } else {
-                res.sendStatus(403)
-            }
-        } catch(err) {
-            res.sendStatus(403)
+
+        if(!username || !password) {
+            res.status(403);
+            throw new Error("UNAUTHORIZED");
+        }
+
+        let authorized = await AuthenticationService.authenticate(username, password);
+        if(authorized) {
+            res.status(200);
+            return;
+        } else {
+            res.status(403);
+            throw new Error("UNAUTHORIZED");
         }
     }
 
@@ -26,7 +30,7 @@ class AuthenticationController {
                     res.status(403);
                 else
                     res.status(500);
-                    
+
                 throw error;
             });
         
@@ -40,8 +44,12 @@ class AuthenticationController {
 
     async logout(req, res) {
         const username = req.user.username;
-        await AuthenticationService.logout(username);
-        res.sendStatus(200);
+        
+        if(username)
+            await AuthenticationService.logout(username);
+        
+        res.status(200);
+        return;
     }
 }
 
