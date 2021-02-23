@@ -10,7 +10,7 @@ class AuthenticationService {
         .select('password').first();
 
         if(user == null) {
-            throw new Error("NO_USER");
+            throw new Error("UNAUTHORIZED");
         }
         
         return await bcrypt.compare(password, user.password);
@@ -23,22 +23,22 @@ class AuthenticationService {
         .select('password', 'username', 'role_id', 'id').first();
 
         if(user === null) {
-            throw new Error("NO_USER");
+            throw new Error("UNAUTHORIZED");
         }
 
         let authenticated = await bcrypt.compare(password, user.password);
 
-        const refresh_token = jwt.sign({
-            name : user.username
-        }, process.env.REFRESH_TOKEN_SECRET)
-
-        await db('users')
-        .update('refresh_token', refresh_token)
-        .where('username', user.username)
-
         let tokens = null;
 
         if(authenticated) {
+            const refresh_token = jwt.sign({
+                name : user.username
+            }, process.env.REFRESH_TOKEN_SECRET)
+    
+            await db('users')
+            .update('refresh_token', refresh_token)
+            .where('username', user.username);
+
             tokens = {
                 access_token : jwt.sign({
                     username : user.username,
@@ -48,8 +48,6 @@ class AuthenticationService {
 
                 refresh_token : refresh_token,
             };
-
-            await db('users')
             
         } else {
             throw new Error("UNAUTHORIZED");

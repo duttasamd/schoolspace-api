@@ -19,18 +19,23 @@ class AuthenticationController {
     async login (req, res) {
         const username = req.body.username;
         const password = req.body.password;
+
+        let tokens = await AuthenticationService.login(username, password)
+            .catch((error) => {
+                if(error.message === "UNAUTHORIZED")
+                    res.status(403);
+                else
+                    res.status(500);
+                    
+                throw error;
+            });
         
-        try {
-            let tokens = await AuthenticationService.login(username, password);
-            
-            if(tokens == null) {
-                res.sendStatus(403)
-            }
-            
-            res.json(tokens);
-        } catch(err) {
-            res.sendStatus(403)
+        if(tokens == null) {
+            res.status(403);
+            throw new Error("Tokens could not be generated.");
         }
+        
+        res.json(tokens);
     }
 
     async logout(req, res) {
