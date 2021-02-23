@@ -51,6 +51,32 @@ class AuthenticationController {
         res.status(200);
         return;
     }
+
+    async refreshAccessToken(req, res) {
+        const authHeader = req.headers['authorization'];
+        const refresh_token = authHeader && authHeader.split(" ")[1];
+
+        if (refresh_token === null) {
+            res.status(403);
+        }
+        let tokens;
+        
+        try {
+            tokens = await AuthenticationService.refreshAccessToken(refresh_token);
+        } catch(err) {
+            res.status(403);
+            throw err;
+        }
+
+        if(tokens === null) {
+            res.status(403);
+        }
+
+        res.status(200);
+        res.json(tokens);
+
+        return;
+    }
 }
 
 module.exports = new AuthenticationController();

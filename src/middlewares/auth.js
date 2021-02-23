@@ -5,10 +5,8 @@ function authenticateToken(req, res, next) {
     const access_token = authHeader && authHeader.split(" ")[1];
 
     if (access_token === null) {
-        if (err) {
-            res.status(401);
-            throw new Error("Access Token required.");
-        }
+        res.status(401);
+        throw new Error("Access Token required.");
     }
 
     jwt.verify(access_token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {

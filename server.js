@@ -12,6 +12,10 @@ const app = express();
 app.use(cors())
 app.get("/", (req, res) => res.send("API service is online..."));
 
+app.get('/api/v1/refreshtoken', (req, res, next) =>
+    AuthenticationController.refreshAccessToken(req, res).catch(next)
+);
+
 var jsonParser = bodyParser.json()
 app.post('/api/v1/login', jsonParser, (req, res, next) =>
     AuthenticationController.login(req, res).catch(next)
