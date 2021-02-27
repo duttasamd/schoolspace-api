@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const auth = require('./middlewares/auth')
+const bodyParser = require('body-parser')
 
 const AuthenticationController = require('./controllers/AuthenticationController.js');
+const FileController = new require('./controllers/FileController.js');
 const SectionController = require('./controllers/SectionController');
 const StandardController = require('./controllers/StandardController');
 const CourseController = require('./controllers/CourseController');
@@ -12,11 +14,19 @@ const UserController = new require('./controllers/UserController.js');
 const StudentController = new require('./controllers/StudentController.js');
 const TeacherController = new require('./controllers/TeacherController.js');
 
+var jsonParser = bodyParser.json()
 
 // AUTHENTICATION
+router.post('/refreshtoken', jsonParser, (req, res, next) =>
+    AuthenticationController.refreshAccessToken(req, res).catch(next)
+);
+
 router.delete('/logout', function (req, res, next) {
     AuthenticationController.logout(req, res, next);
 })
+
+// FILES
+router.get("/sign-s3", (req, res, next) => FileController.getSignedUrl(req, res));
 
 
 // USER

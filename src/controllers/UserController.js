@@ -9,10 +9,10 @@ class UserController {
         let user;
         if(req.params && req.params.username) {
             user = await UserService.get(req.params.username);
-        } else if(req.user.username) {
+        } else if(req.user && req.user.username) {
             user = await UserService.get(req.user.username);
         } else {
-            res.sendStatus(404);
+            res.end();
         }
         
         res.json(user);

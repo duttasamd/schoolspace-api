@@ -21,8 +21,9 @@ class AuthenticationController {
     }
 
     async login (req, res) {
-        const username = req.body.username;
-        const password = req.body.password;
+        const basicauth = (req.headers.authorization || '').split(' ')[1] || '';
+
+        const [username, password] = Buffer.from(basicauth, 'base64').toString().split(':');
 
         let tokens = await AuthenticationService.login(username, password)
             .catch((error) => {
@@ -53,8 +54,7 @@ class AuthenticationController {
     }
 
     async refreshAccessToken(req, res) {
-        const authHeader = req.headers['authorization'];
-        const refresh_token = authHeader && authHeader.split(" ")[1];
+        const refresh_token = req.body.refresh_token;
 
         if (refresh_token === null) {
             res.status(403);

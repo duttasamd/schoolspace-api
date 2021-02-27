@@ -6,7 +6,7 @@ function authenticateToken(req, res, next) {
 
     if (access_token === null) {
         res.status(401);
-        throw new Error("Access Token required.");
+        throw new Error("Access token required.");
     }
 
     jwt.verify(access_token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -30,4 +30,4 @@ function isAdmin(req, res, next) {
     next();
 }
 
-module.exports = {authenticateToken, isAdmin};
+module.exports = { authenticateToken : authenticateToken, isAdmin : isAdmin};
