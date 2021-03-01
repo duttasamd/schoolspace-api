@@ -1,8 +1,11 @@
 exports.up = function(knex) {
     return knex.schema.createTable("coursecontent_file", table => {
         table.bigincrements();
-        table.bigint('coursecontent_id').unsigned().notNull().references('id').inTable('coursecontents');
-        table.uuid('file_id').unsigned().notNull().references('id').inTable('files');
+        table.bigint('coursecontent_id').unsigned().notNull()
+            .references('id').inTable('coursecontents');
+        table.uuid('file_id').unsigned().notNull()
+            .references('id').inTable('files')
+            .onDelete('CASCADE');
     });
 };
 

@@ -3,7 +3,8 @@ exports.up = function(knex) {
         table.uuid().primary();
         table.string('filename');
         table.string('filetype');
-        table.bigint('uploaded_by').unsigned().notNull().references('id').inTable('users');
+        table.bigint('uploaded_by')
+            .unsigned().notNull().references('id').inTable('users');
         table.string('description');
         table.string('bucket');
         table.string('url');

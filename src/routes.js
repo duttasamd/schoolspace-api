@@ -27,6 +27,7 @@ router.delete('/logout', function (req, res, next) {
 
 // FILES
 router.get("/sign-s3", (req, res, next) => FileController.getSignedUrl(req, res));
+router.delete("/remove-s3/:id", (req, res, next) => FileController.remove(req, res));
 
 
 // USER

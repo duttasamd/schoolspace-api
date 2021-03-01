@@ -1,5 +1,4 @@
 const knex = require('../utils/knexutil');
-const db = require('../utils/knexutil');
 
 class CourseService {
     async listForUser(user) {

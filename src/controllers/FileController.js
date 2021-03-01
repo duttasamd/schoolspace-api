@@ -1,75 +1,40 @@
-const aws = require('aws-sdk');
-const { v4: uuidv4 } = require('uuid');
+const FileService = require("../services/FileService");
 
 class FileController {
-    async getSignedUrl (req, res) {
-        const s3 = new aws.S3({
-            signatureVersion: 'v4',
-            region: 'eu-central-1'
-        });
-        let filename = req.query.filename;
+    getSignedUrl (req, res) {
+        const filename = req.query.filename;
         const filetype = req.query.filetype;
-        let fileextension = req.query.fileextension;
-
+        const fileextension = req.query.fileextension;
+        const context = req.query.context;
+        
         if(!filetype) {
             res.status(400);
-            return;
-        }
-
-        if(!fileextension) {
-            switch(filetype) {
-                case "image/png" : fileextension = "png";
-                    break;
-                case "image/jpeg" : fileextension = "jpg";
-                    break;
-                case "image/tiff" : fileextension = "tiff";
-                    break;
-                case "application/pdf" : fileextension = "pdf";
-                    break;
-
-                default : {
-                    fileextension = "data"
-                };
-            }
+            res.end();
         }
         
-
-        let fileId = uuidv4();
-        fileId += `.${fileextension}`;
-
-        if(!filename){
-            filename = fileId;
-        }
-
-        const S3_BUCKET = process.env.S3_BUCKET;
+        let data;
+        
         try {
-            const s3Params = {
-                Bucket: S3_BUCKET,
-                Key: fileId,
-                Expires: 60,
-                ContentType: filetype,
-                ACL: 'public-read',
-                // signatureVersion: 'v4'
-            };
+            data = FileService.getSignedUrl(filename, filetype, fileextension, context);
+            res.status(200);
+            res.json(data);
+        } catch(err) {
+            res.status(200);
+            res.json(err);
+        }
+    }
 
-            s3.getSignedUrl('putObject', s3Params, (err, data) => {
-                if(err){
-                    console.log(err);
-                    return res.end();
-                }
-                const returnData = {
-                    signedRequest: data,
-                    url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileId}`
-                };
+    remove (req, res) {
+        const fileId = req.params.id;
 
-                res.status(200);
-                res.json(returnData);
+        try {
+            FileService.remove(fileId, (isRemoved) => {
+                isRemoved ? res.sendStatus(200) : res.sendStatus(500);
             });
         } catch(err) {
             console.log(err);
-            res.status(500);
+            res.sendStatus(500);
         }
-        return;
     }
 }
 
