@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-    return knex.schema.createTable("coursecontent", table => {
+    return knex.schema.createTable("coursecontents", table => {
         table.bigincrements();
         table.bigint('coursesection_id').unsigned().notNull().references('id').inTable('course_section');
         table.bigint('user_id').unsigned().notNull().references('id').inTable('users');
@@ -12,9 +12,9 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-    knex.schema.table('coursecontent', function (table) {
+    knex.schema.table('coursecontents', function (table) {
         table.dropForeign('coursesection_id');
         table.dropForeign('user_id');
     });
-    return knex.schema.dropTableIfExists('coursecontent');
+    return knex.schema.dropTableIfExists('coursecontents');
 };

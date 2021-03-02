@@ -1,6 +1,6 @@
 exports.up = function(knex) {
     return knex.schema.createTable('files', table => {
-        table.uuid().primary();
+        table.uuid('id').primary();
         table.string('filename');
         table.string('filetype');
         table.bigint('uploaded_by')

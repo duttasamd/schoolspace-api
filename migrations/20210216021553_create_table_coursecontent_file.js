@@ -3,7 +3,7 @@ exports.up = function(knex) {
         table.bigincrements();
         table.bigint('coursecontent_id').unsigned().notNull()
             .references('id').inTable('coursecontents');
-        table.uuid('file_id').unsigned().notNull()
+        table.uuid('file_id').notNull()
             .references('id').inTable('files')
             .onDelete('CASCADE');
     });

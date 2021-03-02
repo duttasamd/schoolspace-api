@@ -10,6 +10,7 @@ const StandardController = require('./controllers/StandardController');
 const CourseController = require('./controllers/CourseController');
 const GroupController = require('./controllers/GroupController');
 const ForumController = require('./controllers/ForumController');
+const CourseContentController = require('./controllers/CourseContentController');
 const UserController = new require('./controllers/UserController.js');
 const StudentController = new require('./controllers/StudentController.js');
 const TeacherController = new require('./controllers/TeacherController.js');
@@ -73,5 +74,11 @@ router.get("/courses", auth.isAdmin, (req, res, next) => CourseController.list(r
 //FORUM
 router.get("/forums/get/:id", (req, res, next) => ForumController.get(req, res));
 router.get("/forums/:id/threads", (req, res, next) => ForumController.listForumThreads(req, res));
+
+//COURSECONTENT
+router.put("/coursecontents", jsonParser, (req, res, next) => CourseContentController.add(req, res));
+router.get("/coursecontents", (req, res, next) => CourseContentController.list(req, res));
+router.get("/coursecontents/:id", (req, res, next) => CourseContentController.get(req, res));
+
 
 module.exports = router
