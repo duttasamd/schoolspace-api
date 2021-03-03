@@ -9,33 +9,37 @@ class CourseContentService {
         courseContent.created_at = moment.utc().format("YYYY-MM-DD HH:mm:ss");
         courseContent.updated_at = moment.utc().format("YYYY-MM-DD HH:mm:ss");
         
-        const courseContentId 
-            = await knex('coursecontents').insert(courseContent)
-                .then((res) => {return res[0]});
+        const trx = await knex.transaction();
+        try {
+            const courseContentId = await trx('coursecontents').insert(courseContent)
+                            .then((res) => {return res[0]});
 
-        for (const file of files) {
-            const id = path.parse(file.id).name;
-            // if(!uuid.validate(id))
-            //     throw new Error("Not a valid UUID");
+            for (const file of files) {
+                const id = path.parse(file.id).name;
+    
+                let newFile = {
+                    id : id,
+                    filename : file.name,
+                    filetype : file.type,
+                    uploaded_by : user.user_id,
+                    created_at : moment.utc().format("YYYY-MM-DD HH:mm:ss"),
+                    updated_at : moment.utc().format("YYYY-MM-DD HH:mm:ss"),
+                }
+    
+                const file_id = await trx('files').insert(newFile)
+                    .then((res) => {return res[0]});
 
-            let newFile = {
-                id : id,
-                filename : file.name,
-                filetype : file.type,
-                uploaded_by : user.user_id,
-                created_at : moment.utc().format("YYYY-MM-DD HH:mm:ss"),
-                updated_at : moment.utc().format("YYYY-MM-DD HH:mm:ss"),
+                const coursecontent_file = {
+                    coursecontent_id : courseContentId,
+                    file_id : id
+                }
+
+                await trx('coursecontent_file').insert(coursecontent_file);
             }
-
-            await knex('files').insert(newFile)
-                .then(async (res) => {
-                    const coursecontent_file = {
-                        coursecontent_id : courseContentId,
-                        file_id : id
-                    }
-
-                    await knex('coursecontent_file').insert(coursecontent_file);
-                });
+            await trx.commit();
+        } catch (err) {
+            await trx.rollback(err);
+            throw err;
         }
     }
 

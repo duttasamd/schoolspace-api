@@ -59,10 +59,12 @@ router.get("/teachers/count", auth.isAdmin, (req, res, next) => TeacherControlle
 
 router.get("/standards/count", auth.isAdmin, (req, res, next) => StandardController.count(req, res));
 router.get("/standards", auth.isAdmin, (req, res, next) => StandardController.list(req, res));
+
 // SECTION
 
 router.get("/sections/count", auth.isAdmin, (req, res, next) => SectionController.count(req, res));
 router.get("/sections/", auth.isAdmin, (req, res, next) => SectionController.list(req, res));
+router.get("/sections/:id", auth.isAdmin, (req, res, next) => SectionController.get(req, res));
 
 
 // COURSE

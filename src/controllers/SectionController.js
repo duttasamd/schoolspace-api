@@ -15,6 +15,13 @@ class SectionController {
             res.json(sections);
         }
     }
+
+    async get (req, res) {
+        const sectionId = req.params.id;
+
+        const sections = await SectionService.get(sectionId);
+        res.json(sections);
+    }
 }
 
 module.exports = new SectionController();

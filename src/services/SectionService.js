@@ -1,3 +1,4 @@
+const knex = require('../utils/knexutil');
 const db = require('../utils/knexutil');
 
 class SectionService {
@@ -34,6 +35,13 @@ class SectionService {
         await Promise.all(countpromises);
 
         return sections;
+    }
+
+    async get(sectionId) {
+        return await knex('sections')
+            .join('standards', 'standards.id', 'sections.standard_id')
+            .where('sections.id', sectionId)
+            .first('sections.id', 'sections.name', 'standards.name as standard');
     }
 }
 
