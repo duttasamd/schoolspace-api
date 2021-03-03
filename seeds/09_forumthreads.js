@@ -1,21 +1,22 @@
 const faker = require('faker');
 
 exports.seed = async function(knex) {
+  await knex('forumthreadreplies').del();
 	await knex('forumthreads').del();
 
-  const forums = await knex('forums').select();
-  const max_user_id = await knex('users').count('id as count').then((res) => {return res[0].count});
-  
+  const forums = await knex('forums').select('id');
+  const users = await knex('users').select('id');
+
   let threadpromises = [];
   let threadreplypromises = [];
 
   for (const forum of forums) {
-    const num_threads = Math.floor(Math.random() * 10) + 0;
-
+    const num_threads = Math.floor(Math.random() * 10);
+    
     for(let i=0; i<num_threads; i++) {
-      const user_id = Math.floor(Math.random() * max_user_id) + 1;
-      const forumthread = {
-        user_id : user_id,
+      let userid = users[Math.floor(Math.random() * users.length)].id;
+      let forumthread = {
+        user_id : userid,
         post : faker.lorem.sentence(),
         created_at : faker.date.past(),
         updated_at : faker.date.past(),
@@ -25,13 +26,11 @@ exports.seed = async function(knex) {
       let threadpromise = knex('forumthreads')
           .insert(forumthread)
           .then((res) => {
-            // console.log(res[0]);
             const num_threadreplies = Math.floor(Math.random() * 10) + 0;
 
             for(let j=0; j<num_threadreplies; j++) {
-              const replyuser_id = Math.floor(Math.random() * max_user_id) + 1;
-              const forumthreadreply = {
-                user_id : replyuser_id,
+              let forumthreadreply = {
+                user_id : users[Math.floor(Math.random() * users.length)].id,
                 reply : faker.lorem.sentences(),
                 created_at : faker.date.past(),
                 updated_at : faker.date.past(),

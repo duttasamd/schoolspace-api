@@ -5,7 +5,16 @@ class UserController {
         if(req.user === null) {
             res.sendStatus(403);
         }
-        const user = await UserService.get(req.user.username);
+        
+        let user;
+        if(req.params && req.params.username) {
+            user = await UserService.get(req.params.username);
+        } else if(req.user && req.user.username) {
+            user = await UserService.get(req.user.username);
+        } else {
+            res.end();
+        }
+        
         res.json(user);
     }
 
