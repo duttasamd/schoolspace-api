@@ -5,7 +5,7 @@ class StudentService {
         return await db('students').count('id as count').then((res) => {return res[0].count });
     }
 
-    async list (pageIndex, pageSize, search) {
+    async list (pageIndex, pageSize, search, sectionId=null) {
         let query = db('students')
                     .join('users', 'students.user_id', 'users.id')
                     .join('sections', 'students.section_id', 'sections.id')
@@ -17,9 +17,17 @@ class StudentService {
                         .orWhere('users.lastname', 'like', searchParam);
         }
 
+        if(sectionId && sectionId > 0){
+            query = query.where('students.section_id', sectionId);
+        }
+
         let recordsTotal = await query.clone().count('students.id as count');
 
-        let students = await query.offset(pageIndex).limit(pageSize)
+        if (pageSize > 0) {
+            query = query.offset(pageIndex).limit(pageSize);
+        }
+
+        let students = await query
                         .select('firstname', 'lastname', 'sections.name as section', 'standards.name as standard', 'roll');
 
         return {
