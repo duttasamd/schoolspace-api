@@ -45,10 +45,10 @@ class AuthenticationService {
                     username : user.username,
                     user_id : user.id,
                     role_id :  user.role_id
-                }, process.env.ACCESS_TOKEN_SECRET, {expiresIn : '15m'}),
+                }, process.env.ACCESS_TOKEN_SECRET, {expiresIn : '1h'}),
 
                 refresh_token : refresh_token,
-                expires_at : new moment.utc().add(60*15, 'seconds')
+                expires_at : new moment.utc().add(60*60, 'seconds')
             };
             
         } else {
@@ -89,10 +89,10 @@ class AuthenticationService {
                 username : user.username,
                 user_id : user.id,
                 role_id :  user.role_id
-            }, process.env.ACCESS_TOKEN_SECRET, {expiresIn : '15m'}),
+            }, process.env.ACCESS_TOKEN_SECRET, {expiresIn : '1h'}),
 
             refresh_token : new_refresh_token,
-            expires_at : new moment.utc().add(60*15, 'seconds')
+            expires_at : new moment.utc().add(60*60, 'seconds')
         };
 
         return tokens;

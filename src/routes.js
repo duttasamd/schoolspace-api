@@ -11,6 +11,7 @@ const CourseController = require('./controllers/CourseController');
 const GroupController = require('./controllers/GroupController');
 const ForumController = require('./controllers/ForumController');
 const CourseContentController = require('./controllers/CourseContentController');
+const AttendanceController = require('./controllers/AttendanceController');
 const UserController = new require('./controllers/UserController.js');
 const StudentController = new require('./controllers/StudentController.js');
 const TeacherController = new require('./controllers/TeacherController.js');
@@ -69,18 +70,23 @@ router.get("/sections/:id", auth.isAdmin, (req, res, next) => SectionController.
 
 // COURSE
 
-router.get("/coursesection/get/:id", (req, res, next) => CourseController.getCourseSection(req, res));
-router.get("/courses/listforuser", (req, res, next) => CourseController.listForUser(req, res));
+router.get("/coursesection/get/:id", auth.isAdmin, (req, res, next) => CourseController.getCourseSection(req, res));
+router.get("/courses/listforuser", auth.isAdmin, (req, res, next) => CourseController.listForUser(req, res));
 router.get("/courses", auth.isAdmin, (req, res, next) => CourseController.list(req, res));
 
 //FORUM
 router.get("/forums/get/:id", (req, res, next) => ForumController.get(req, res));
 router.get("/forums/:id/threads", (req, res, next) => ForumController.listForumThreads(req, res));
 
+router.get("/forums/get/:id", (req, res, next) => ForumController.get(req, res));
+
 //COURSECONTENT
 router.put("/coursecontents", jsonParser, (req, res, next) => CourseContentController.add(req, res));
 router.get("/coursecontents", (req, res, next) => CourseContentController.list(req, res));
 router.get("/coursecontents/:id", (req, res, next) => CourseContentController.get(req, res));
 
+//ATTENDANCE
+router.get("/attendance/:sectionId", (req, res, next) => AttendanceController.list(req,res));
+router.put("/attendance", jsonParser, (req, res, next) => AttendanceController.add(req,res));
 
 module.exports = router
