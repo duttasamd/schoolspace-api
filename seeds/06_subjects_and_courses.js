@@ -59,12 +59,10 @@ exports.seed = async function(knex) {
 		let subject = {
 			name : key
 		};
-		// console.log("Outside $", key);
 		let subjectpromise = knex('subjects')
 			.insert(subject)
 			.then((res) => 
 			{
-				// console.log(key);
 				let courses = [];
 				for (const std of subjects[key]) {
 					const course = {

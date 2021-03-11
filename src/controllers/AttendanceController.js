@@ -16,7 +16,6 @@ class AttendanceController {
     }
 
     async add (req, res) {
-        console.log(req.body);
         const attendance = {
             section_id : parseInt(req.body.sectionId),
             user_id : req.body.userId,
@@ -27,7 +26,6 @@ class AttendanceController {
         }
 
         if(!attendance.section_id || !attendance.user_id || attendance.is_present === null) {
-            console.log("Bad Request");
             res.status(400);
             res.end();
             return;
